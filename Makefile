@@ -1,9 +1,7 @@
 all: main
 
-main: main.o
-	$(LD) -o $@ $+
-main.o: main.s
-	$(AS) -o $@ $<
+main: main.s
+	$(CC) -o $@ $<
 
 clean:
 	rm -vf main *.o

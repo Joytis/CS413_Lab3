@@ -11,7 +11,8 @@
 	        "cmd": ["make"],
 	        "env": {
 	        	"AS": "arm-none-eabi-as",
-	        	"LD": "arm-none-eabi-gcc"
+	        	"LD": "arm-none-eabi-gcc",
+	        	"CC": "arm-none-eabi-gcc",
 	        },
 
 	        "variants": 
