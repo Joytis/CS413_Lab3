@@ -157,11 +157,6 @@ main:
 	ldr  	r1, =input_len
 	bl 		scanf
 
-	ldr 	r0, =format_dec
-	ldr 	r1, =input_len
-	ldr 	r1, [r1]
-	bl 		printf
-
 	@ Check for invalid data
 	ldr 	r0, =input_src
 	ldr 	r0, [r0]
