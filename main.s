@@ -14,6 +14,7 @@ data2: .skip 100
 .balign 4
 sprompt: .asciz "Data 1: \n"
 sprompt2: .asciz "Data 2: \n"
+testp: .asciz "Init Chunk %d\n"
 format_hex: .asciz "%x"
 prompt_carat: .asciz "> "
 prompt_endl: .asciz "\n"
@@ -67,10 +68,16 @@ main:
 	ldr		r0,	=data1
 	ldr 	r1, =0xAAAAAAAA
 	bl		init_chunk 
+	ldr 	r0, =testp
+	mov 	r1, #1
+	bl 		printf
 
 	ldr		r0,	=data2
 	ldr 	r1, =0xBBBBBBBB
 	bl		init_chunk
+	ldr 	r0, =testp
+	mov 	r1, #2
+	bl 		printf
 
 	@ print intro
 	ldr		r0,	=sprompt
