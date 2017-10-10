@@ -195,7 +195,7 @@ _x2_5:
 
 	ldr 	r0, =format_hex
 	ldr 	r1, =input_len
-	ldr 	r1, [r0]
+	ldr 	r1, [r1]
 	bl 		printf
 
 	@ Checks for valid address. Assume value r0. Return 1 or 0 r1
