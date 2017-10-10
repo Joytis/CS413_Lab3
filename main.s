@@ -29,7 +29,7 @@ inv_same: .asciz "Addresses are same. Invalid \n"
 inv_len: .asciz "Invalid Length\n"
 
 format_hex: .asciz "%x"
-format_dec: .asciz "%x"
+format_dec: .asciz "%d"
 format_hex_n: .asciz "%x\n"
 format_str: .asciz "%"
 carat: .asciz "> "
