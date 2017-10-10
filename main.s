@@ -219,7 +219,7 @@ the_loop:
 	ldrb	r4, [r1, r2] 
 	strb	r3, [r1, r2] 
 	strb	r4, [r0, r2] 
-	add 	r4, r4, #1
+	add 	r2, r2, #1
 	cmp 	r2, r5
 	bne 	the_loop
 
