@@ -21,39 +21,39 @@ prompt_endl: .asciz "\n"
 /* -- PROGRAM SECTION */
 .text
 
-@ Assumes data is in r0, value in r1
-init_chunk:
-    push    {r2, lr}
-    mov		r2, #0 @index
-
-    ldr 	r0, output_start_data1
-	bl 		printf
-init_chunk_loop:
-	str		r1, [r0, r2]
-	add 	r2, r2, #4
-	cmp 	r2, #100
-	bne 	init_chunk_loop
-    pop     {r2, pc}
-
-@ Data address in r0
-print_data:
-	push    {r2-r3, lr}
-    mov		r2, #0 @index
-    ldr 	r0, output_start_data1
-	bl 		printf
-print_data_loop:
-	ldr		r3, [r0, r2]
-	add 	r2, r2, #4
-
-	@ print the value
-	push	{r0, r1}
-	ldr 	r0, =format_hex
-	mov 	r1, r3
-	pop	 	{r0, r1}
-
-	cmp 	r2, #100
-	bne 	init_chunk_loop
-    pop     {r2-r3, pc}
+@@ Assumes data is in r0, value in r1
+@init_chunk:
+@    push    {r2, lr}
+@    mov		r2, #0 @index
+@
+@    ldr 	r0, output_start_data1
+@	bl 		printf
+@init_chunk_loop:
+@	str		r1, [r0, r2]
+@	add 	r2, r2, #4
+@	cmp 	r2, #100
+@	bne 	init_chunk_loop
+@    pop     {r2, pc}
+@
+@@ Data address in r0
+@print_data:
+@	push    {r2-r3, lr}
+@    mov		r2, #0 @index
+@    ldr 	r0, output_start_data1
+@	bl 		printf
+@print_data_loop:
+@	ldr		r3, [r0, r2]
+@	add 	r2, r2, #4
+@
+@	@ print the value
+@	push	{r0, r1}
+@	ldr 	r0, =format_hex
+@	mov 	r1, r3
+@	pop	 	{r0, r1}
+@
+@	cmp 	r2, #100
+@	bne 	init_chunk_loop
+@    pop     {r2-r3, pc}
 
 .global main
 
