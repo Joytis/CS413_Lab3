@@ -25,6 +25,7 @@ pr_dstadr: .asciz "dest_address: "
 pr_length: .asciz "length: "
 inv_src: .asciz "Invalid Source Address\n"
 inv_dst: .asciz "Invalid Destination Address \n"
+inv_same: .asciz "Invalid Destination Address \n"
 inv_len: .asciz "Invalid Length\n"
 
 format_hex: .asciz "%x"
@@ -189,6 +190,21 @@ _x1:
 	bl 		printf
 	b 		_exit
 _x2:
+
+	@ Check for SAME ADDRESS
+	ldr 	r0, =input_src
+	ldr 	r0, [r0]
+	ldr 	r1, =input_dst
+	ldr 	r1, [r1]
+	cmp 	r0, r1
+	bne 	_x2_5
+	@ leave
+	ldr 	r0, =inv_same
+	bl 		printf
+	b 		_exit
+_x2_5:
+
+
 
 	@ Check for invalid length
 	ldr 	r0, =input_len
