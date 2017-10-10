@@ -197,17 +197,11 @@ _x2_5:
 	ldr 	r1, =input_len
 	ldr 	r1, [r1]
 	cmp  	r1, #100
-	ble 	_x3
-	push 	{r1}
-	ldr 	r0, =inv_len
-	bl 		printf
-	pop 	{r1}
+	bgt 	_x3_bad
 	cmp 	r1, #0
-	bge 	_x3
-	push 	{r1}
-	ldr 	r0, =inv_len
-	bl 		printf
-	pop 	{r1}
+	blt 	_x3_bad
+	b 		_x3
+_x3_bad:
 	@ leave
 	ldr 	r0, =inv_len
 	bl 		printf
