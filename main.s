@@ -193,6 +193,11 @@ _x2:
 	b 		_exit
 _x2_5:
 
+	ldr 	r0, =format_hex
+	ldr 	r1, =input_len
+	ldr 	r1, [r0]
+	bl 		printf
+
 	@ Checks for valid address. Assume value r0. Return 1 or 0 r1
 	ldr 	r0, =input_len
 	ldr 	r0, [r0]
