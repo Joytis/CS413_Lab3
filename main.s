@@ -198,8 +198,16 @@ _x2_5:
 	ldr 	r1, [r1]
 	cmp  	r1, #100
 	ble 	_x3
+	push 	{r1}
+	ldr 	r0, =inv_len
+	bl 		printf
+	pop 	{r1}
 	cmp 	r1, #0
 	bge 	_x3
+	push 	{r1}
+	ldr 	r0, =inv_len
+	bl 		printf
+	pop 	{r1}
 	@ leave
 	ldr 	r0, =inv_len
 	bl 		printf
