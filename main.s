@@ -11,9 +11,10 @@ mrval: .word 0
 /* -- STRINGS */
 .balign 4
 msprompt: .asciz "Data 1: \n"
-.balign 4
 msprompt2: .asciz "Data 2: \n"
-.balign 4 /* null prompt to fix seg fault */
+format_hex: .asciz "%x"
+prompt_carat: .asciz "> "
+prompt_endl: .asciz "\n"
 mnullp: .asciz "\n"
 
 
