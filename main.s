@@ -113,6 +113,18 @@ valid_addr:
 va_exit:
     pop     {r0, r3, r4, pc}
 
+@ Checks for valid address. Assume value r0. Return 1 or 0 r1
+valid_len:
+	push 	{r0, r3, r4, lr}
+	mov 	r1, #1
+	cmp  	r0, #100
+	ble 	va_exit
+	cmp 	r0, #0
+	bge 	va_exit
+	mov 	r1, #0
+val_exit:
+    pop     {r0, r3, r4, pc}
+
 
 
 .global main
@@ -165,6 +177,28 @@ main:
 	blne 	printf
 	bne 	_exit
 
+	@ Check for invalid data
+	ldr 	r0, =input_dst
+	ldr 	r0, [r0]
+	bl 		valid_addr
+	cmp 	r1, #1 
+	@ leave
+	ldrne 	r0, =inv_dst
+	blne 	printf
+	bne 	_exit
+
+	@ Check for invalid length
+	ldr 	r0, =input_len
+	ldr 	r0, [r0]
+	bl 		valid_len
+	cmp 	r1, #1 
+	@ leave
+	ldrne 	r0, =inv_len
+	blne 	printf
+	bne 	_exit
+
+	@ ALL INPUT IS VALID! PROCEDE
+	
 
 
 _exit:
