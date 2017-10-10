@@ -7,6 +7,8 @@
 /* CONTROL VARIABLES */
 .balign 4/*return variable*/
 mrval: .word 0
+data1: .skip 100
+data2: .skip 100
 
 /* -- STRINGS */
 .balign 4
@@ -44,6 +46,7 @@ print_data_loop:
 	push	{r0, r1}
 	ldr 	r0, =format_hex
 	mov 	r1, r3
+	bl 		printf
 	pop	 	{r0, r1}
 
 	cmp 	r2, #100
@@ -58,24 +61,37 @@ print_data_loop:
 /* =============== */
 main:
 	@ Store return value
-	ldr 	r1, rval
+	ldr 	r1, =rval
 	str 	lr, [r1]
 
+	ldr		r0,	=data1
+	ldr 	r1, =0xAAAAAAAA
+	bl		init_chunk 
+
+	ldr		r0,	=data2
+	ldr 	r1, =0xBBBBBBBB
+	bl		init_chunk
+
 	@ print intro
-	ldr		r0,	sprompt
+	ldr		r0,	=sprompt
 	bl		printf 
+	ldr 	r0, =data1
+	bl		print_data 
+
+	@ print intro
+	ldr		r0,	=sprompt2
+	bl		printf 
+	ldr 	r0, =data2
+	bl		print_data 
+
 
 	@ get outta here. 
-	ldr 	lr, rval
+	ldr 	lr, =rval
 	ldr 	lr, [lr]
 	bx 		lr
 
 
 /* -- VARIABLE DEFINITIONS (addresses) */
-sprompt		: .word msprompt
-sprompt2	: .word msprompt2
-
-rval: .word mrval
 
 /* -- EXTERNALS */
 .global printf
