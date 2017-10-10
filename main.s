@@ -114,17 +114,6 @@ valid_addr:
 va_exit:
     pop     {r0, r3, r4, pc}
 
-@ Checks for valid address. Assume value r0. Return 1 or 0 r1
-valid_len:
-	push 	{r0, r3, r4, lr}
-	mov 	r1, #1
-	cmp  	r0, #100
-	ble 	va_exit
-	cmp 	r0, #0
-	bge 	va_exit
-	mov 	r1, #0
-val_exit:
-    pop     {r0, r3, r4, pc}
 
 
 
@@ -204,14 +193,13 @@ _x2:
 	b 		_exit
 _x2_5:
 
-
-
-	@ Check for invalid length
+	@ Checks for valid address. Assume value r0. Return 1 or 0 r1
 	ldr 	r0, =input_len
 	ldr 	r0, [r0]
-	bl 		valid_len
-	cmp 	r1, #1 
-	beq 	_x3
+	cmp  	r0, #100
+	ble 	_x3
+	cmp 	r0, #0
+	bge 	_x3
 	@ leave
 	ldr 	r0, =inv_len
 	bl 		printf
