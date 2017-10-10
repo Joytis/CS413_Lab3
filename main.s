@@ -88,9 +88,6 @@ user_prompt:
 	ldr		r0,	=endl
 	bl		printf 
 
-	ldr		r0,	=pr_cpdata
-	bl		printf 
-
     pop     {r0, pc}
 
 @ flushes the input
@@ -137,6 +134,8 @@ main:
 
 	@ prompt stuff
 	bl 		user_prompt
+	ldr		r0,	=pr_cpdata
+	bl		printf 
 
 	@ Get user input for src, dest, and len. 
 	ldr 	r0, =pr_srcadr
@@ -209,8 +208,23 @@ _x3_bad:
 _x3:
 
 	@ ALL INPUT IS VALID! PROCEDE
+	@ swap data between addresses
+	ldr r0, =data1
+	ldr r1, =data2
+	mov r2, #0 @offset
+	ldr r5, =input_len
+	ldr r5, [r5]
+the_loop:
+	ldrb	r3, [r0, r2] 
+	ldrb	r4, [r1, r2] 
+	strb	r3, [r1, r2] 
+	strb	r4, [r0, r2] 
+	add 	r4, r4, #1
+	cmp 	r4, r5
+	bne 	the_loop
 
-
+	@ prompt stuff
+	bl 		user_prompt
 
 _exit:
 	@ get outta here. 
