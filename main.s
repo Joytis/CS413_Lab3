@@ -8,7 +8,7 @@
 .balign 4 /* price of a soda */
 mprice: .word 		55
 .balign 4/*return variable*/
-mrval: .word			0
+mrval: .word	0
 .balign 4/*input variable*/
 minput: .word		0
 
@@ -70,10 +70,13 @@ mnullp: .asciz "\n"
 /* -- PROGRAM MAIN */
 /* =============== */
 main:
+
 	/* print out intro message */
 	ldr		r0,	sprompt
 	bl		printf 
 
+	ldr 	lr, rval
+	ldr 	lr, [lr]
 	bx 		lr
 
 
