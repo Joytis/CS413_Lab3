@@ -16,9 +16,8 @@ sprompt: .asciz "Data 1: \n"
 sprompt2: .asciz "Data 2: \n"
 testp: .asciz "Init Chunk %d\n"
 format_hex: .asciz "%x"
-prompt_carat: .asciz "> "
-prompt_endl: .asciz "\n"
-mnullp: .asciz "\n"
+carat: .asciz "> "
+endl: .asciz "\n"
 
 
 /* -- PROGRAM SECTION */
@@ -73,18 +72,21 @@ main:
 	ldr 	r1, =0xBBBBBBBB
 	bl		init_chunk
 
-	@ print intro
+	@ print intro data1
 	ldr		r0,	=sprompt
 	bl		printf 
 	ldr 	r0, =data1
 	bl		print_data 
+	ldr		r0,	=endl
+	bl		printf 
 
-	@ print intro
+	@ print intro data2
 	ldr		r0,	=sprompt2
 	bl		printf 
 	ldr 	r0, =data2
 	bl		print_data 
-
+	ldr		r0,	=endl
+	bl		printf 
 
 	@ get outta here. 
 	ldr 	lr, =rval
