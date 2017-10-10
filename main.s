@@ -9,7 +9,9 @@
 rval: .word 0
 data1: .space 100
 data2: .space 100
-input: .word 0
+input_src: .word 0
+input_dst: .word 0
+input_len: .word 0
 trash: .word 0
 
 /* -- STRINGS */
@@ -21,6 +23,10 @@ pr_cpdata: .asciz "COPYDATA\n"
 pr_srcadr: .asciz "source_address: "
 pr_dstadr: .asciz "dest_address: "
 pr_length: .asciz "length: "
+inv_src: .asciz "Invalid Source Address\n"
+inv_dst: .asciz "Invalid Destination Address \n"
+inv_len: .asciz "Invalid Length\n"
+
 format_hex: .asciz "%x"
 format_hex_n: .asciz "%x\n"
 format_str: .asciz "%"
@@ -93,6 +99,21 @@ flush:
 	ldr 	r1, =trash
     pop     {r0, r1, pc}
 
+@ Checks for valid address. Assume value r0. Return 1 or 0 r1
+valid_addr:
+	push 	{r0, r3, r4, lr}
+	mov 	r1, #1
+	ldr 	r3, =0x00000000
+	ldr 	r4, =0x00000064
+	cmp  	r0, r3
+	beq 	va_exit
+	cmp 	r0, r4
+	beq 	va_exit
+	mov 	r1, #0
+va_exit:
+    pop     {r0, r3, r4, pc}
+
+
 
 .global main
 
@@ -115,33 +136,38 @@ main:
 	@ prompt stuff
 	bl 		user_prompt
 
+	@ Get user input for src, dest, and len. 
 	ldr 	r0, =pr_srcadr
 	bl 		printf
 	ldr 	r0, =format_hex
-	ldr  	r1, =input
+	ldr  	r1, =input_src
 	bl 		scanf
-
-	ldr 	r0, =format_hex_n
-	ldr  	r1, =input
-	ldr  	r1, [r1]
-	bl 		printf
 
 	ldr 	r0, =pr_dstadr 
 	bl 		printf
 	ldr 	r0, =format_hex
-	ldr  	r1, =input
+	ldr  	r1, =input_dst
 	bl 		scanf
 
 	ldr 	r0, =pr_length
 	bl 		printf
 	ldr 	r0, =format_hex
-	ldr  	r1, =input
+	ldr  	r1, =input_len
 	bl 		scanf
 
+	@ Check for invalid data
+	ldr 	r0, =input_src
+	ldr 	r0, [r0]
+	bl 		valid_addr
+	cmp 	r1, #1 
+	@ leave
+	ldrne 	r0, =inv_src
+	blne 	printf
+	bne 	_exit
 
 
 
-
+_exit:
 	@ get outta here. 
 	ldr 	lr, =rval
 	ldr 	lr, [lr]
