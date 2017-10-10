@@ -75,12 +75,19 @@ main:
 	ldr 	r1, =0xBBBBBBBB
 	bl 		init_chunk
 
-	@ Initial data print
-	ldr 	r0, data1
-	bl 		init_chunk
 
+
+	@ Initial data print
+	ldr 	r0, output_start_data1
+	bl 		printf
+	ldr 	r0, data1
+	bl 		print_data
+
+
+	ldr 	r0, output_start_data2
+	bl 		printf
 	ldr 	r0, data2
-	bl 		init_chunk
+	bl 		print_data
 
 	bx 		lr
 
