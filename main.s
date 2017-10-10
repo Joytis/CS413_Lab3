@@ -9,13 +9,21 @@
 rval: .word 0
 data1: .space 100
 data2: .space 100
+input: .word 0
+trash: .word 0
 
 /* -- STRINGS */
 .balign 4
-sprompt: .asciz "Data 1: \n"
-sprompt2: .asciz "Data 2: \n"
+sprompt: .asciz "0x00000000: \n"
+sprompt2: .asciz "0x00000064: \n"
 testp: .asciz "Init Chunk %d\n"
+pr_cpdata: .asciz "COPYDATA\n"
+pr_srcadr: .asciz "source_address: "
+pr_dstadr: .asciz "dest_address: "
+pr_length: .asciz "length: "
 format_hex: .asciz "%x"
+format_hex_n: .asciz "%x\n"
+format_str: .asciz "%"
 carat: .asciz "> "
 endl: .asciz "\n"
 
@@ -53,6 +61,38 @@ print_data_loop:
 	bne 	print_data_loop
     pop     {r2-r3, pc}
 
+@Print the prompts
+user_prompt:
+	push 	{r0, lr}
+
+	@ print intro data1
+	ldr		r0,	=sprompt
+	bl		printf 
+	ldr 	r0, =data1
+	bl		print_data 
+	ldr		r0,	=endl
+	bl		printf 
+
+	@ print intro data2
+	ldr		r0,	=sprompt2
+	bl		printf 
+	ldr 	r0, =data2
+	bl		print_data 
+	ldr		r0,	=endl
+	bl		printf 
+
+	ldr		r0,	=pr_cpdata
+	bl		printf 
+
+    pop     {r0, pc}
+
+@ flushes the input
+flush: 
+	push 	{r0, r1, lr}
+	ldr 	r0, =format_str
+	ldr 	r1, =trash
+    pop     {r0, r1, pc}
+
 
 .global main
 
@@ -72,21 +112,35 @@ main:
 	ldr 	r1, =0xBBBBBBBB
 	bl		init_chunk
 
-	@ print intro data1
-	ldr		r0,	=sprompt
-	bl		printf 
-	ldr 	r0, =data1
-	bl		print_data 
-	ldr		r0,	=endl
-	bl		printf 
+	@ prompt stuff
+	bl 		user_prompt
 
-	@ print intro data2
-	ldr		r0,	=sprompt2
-	bl		printf 
-	ldr 	r0, =data2
-	bl		print_data 
-	ldr		r0,	=endl
-	bl		printf 
+	ldr 	r0, =pr_srcadr
+	bl 		printf
+	ldr 	r0, =format_hex
+	ldr  	r1, =input
+	bl 		scanf
+
+	ldr 	r0, =format_hex_n
+	ldr  	r1, =input
+	ldr  	r1, [r1]
+	bl 		printf
+
+	ldr 	r0, =pr_dstadr 
+	bl 		printf
+	ldr 	r0, =format_hex
+	ldr  	r1, =input
+	bl 		scanf
+
+	ldr 	r0, =pr_length
+	bl 		printf
+	ldr 	r0, =format_hex
+	ldr  	r1, =input
+	bl 		scanf
+
+
+
+
 
 	@ get outta here. 
 	ldr 	lr, =rval
