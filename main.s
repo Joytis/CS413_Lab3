@@ -34,6 +34,9 @@ mprompt_endl: .asciz "\n"
 init_chunk:
     push    {r2, lr}
     mov		r2, #0 @index
+
+    ldr 	r0, output_start_data1
+	bl 		printf
 init_chunk_loop:
 	str		r1, [r0, r2]
 	add 	r2, r2, #4
@@ -45,6 +48,8 @@ init_chunk_loop:
 print_data:
 	push    {r2-r3, lr}
     mov		r2, #0 @index
+    ldr 	r0, output_start_data1
+	bl 		printf
 print_data_loop:
 	ldr		r3, [r0, r2]
 	add 	r2, r2, #4
