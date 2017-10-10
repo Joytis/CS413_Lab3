@@ -47,7 +47,7 @@ print_data_loop:
 	push	{r0, r1}
 	ldr 	r0, =format_hex
 	mov 	r1, r3
-	bl 		printf
+	@bl 		printf
 	pop	 	{r0, r1}
 
 	cmp 	r2, #100
@@ -68,16 +68,10 @@ main:
 	ldr		r0,	=data1
 	ldr 	r1, =0xAAAAAAAA
 	bl		init_chunk 
-	ldr 	r0, =testp
-	mov 	r1, #1
-	bl 		printf
 
 	ldr		r0,	=data2
 	ldr 	r1, =0xBBBBBBBB
 	bl		init_chunk
-	ldr 	r0, =testp
-	mov 	r1, #2
-	bl 		printf
 
 	@ print intro
 	ldr		r0,	=sprompt
