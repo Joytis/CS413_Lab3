@@ -220,7 +220,7 @@ the_loop:
 	strb	r3, [r1, r2] 
 	strb	r4, [r0, r2] 
 	add 	r4, r4, #1
-	cmp 	r4, r5
+	cmp 	r2, r5
 	bne 	the_loop
 
 	@ prompt stuff
