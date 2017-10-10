@@ -70,8 +70,11 @@ mnullp: .asciz "\n"
 /* -- PROGRAM MAIN */
 /* =============== */
 main:
+	@ Store return value
+	ldr 	r1, rval
+	str 	lr, [r1]
 
-	/* print out intro message */
+	@ print intro
 	ldr		r0,	sprompt
 	bl		printf 
 
