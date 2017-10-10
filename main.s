@@ -25,7 +25,7 @@ pr_dstadr: .asciz "dest_address: "
 pr_length: .asciz "length: "
 inv_src: .asciz "Invalid Source Address\n"
 inv_dst: .asciz "Invalid Destination Address \n"
-inv_same: .asciz "Invalid Destination Address \n"
+inv_same: .asciz "Addresses are same. Invalid \n"
 inv_len: .asciz "Invalid Length\n"
 
 format_hex: .asciz "%x"
