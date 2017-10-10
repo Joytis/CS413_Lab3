@@ -6,14 +6,14 @@
 
 /* CONTROL VARIABLES */
 .balign 4/*return variable*/
-mrval: .word 0
+rval: .word 0
 data1: .skip 100
 data2: .skip 100
 
 /* -- STRINGS */
 .balign 4
-msprompt: .asciz "Data 1: \n"
-msprompt2: .asciz "Data 2: \n"
+sprompt: .asciz "Data 1: \n"
+sprompt2: .asciz "Data 2: \n"
 format_hex: .asciz "%x"
 prompt_carat: .asciz "> "
 prompt_endl: .asciz "\n"
