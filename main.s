@@ -9,11 +9,13 @@
 
 
 @ Array 1
+.balign  4 /* input format for scanf */
 data1: .skip 100
 @ Array 2
 data2: .skip 100
 
 /* -- STRINGS */
+.balign  4 /* input format for scanf */
 output_start_data1: .asciz "Data 1: "
 output_start_data2: .asciz "Data 2: "
 format_hex: .asciz "%x"
@@ -21,9 +23,8 @@ prompt_carat: .asciz "> "
 prompt_endl: .asciz "\n"
 
 /* -- PROGRAM SECTION */
-.global main
-.func main
 .text
+.global main
 
 @ Assumes data is in r0, value in r1
 init_chunk:
@@ -66,7 +67,7 @@ print_data_loop:
 /* =============== */
 main:
 	ldr		r0, =output_start_data1
-	@ bl		printf
+	bl		printf
 
 	@ Initialize the data sections. 
 	@ldr 	r0, data1
