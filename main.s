@@ -7,8 +7,8 @@
 /* CONTROL VARIABLES */
 .balign 4/*return variable*/
 rval: .word 0
-data1: .skip 100
-data2: .skip 100
+data1: .space 100
+data2: .space 100
 
 /* -- STRINGS */
 .balign 4
@@ -77,13 +77,13 @@ main:
 	ldr		r0,	=sprompt
 	bl		printf 
 	ldr 	r0, =data1
-	bl		print_data 
+	@bl		print_data 
 
 	@ print intro
 	ldr		r0,	=sprompt2
 	bl		printf 
 	ldr 	r0, =data2
-	bl		print_data 
+	@bl		print_data 
 
 
 	@ get outta here. 
