@@ -44,11 +44,11 @@ print_data_loop:
 	add 	r2, r2, #4
 
 	@ print the value
-	push	{r0, r1}
+	push	{r0-r2}
 	ldr 	r0, =format_hex
 	mov 	r1, r3
 	bl 		printf
-	pop	 	{r0, r1}
+	pop	 	{r0-r2}
 
 	cmp 	r2, #100
 	bne 	print_data_loop
