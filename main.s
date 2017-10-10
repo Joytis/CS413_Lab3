@@ -66,7 +66,7 @@ print_data_loop:
 /* =============== */
 main:
 	ldr		r0, =output_start_data1
-	bl		printf
+	@ bl		printf
 
 	@ Initialize the data sections. 
 	@ldr 	r0, data1
