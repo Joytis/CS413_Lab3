@@ -3,28 +3,26 @@
 /* -- DATA SECTION */
 .data
 
-@ Variables
+/* -- EXTERNALS */
+.global printf
+.global scanf
+
 
 @ Array 1
-.balign 4
-mdata1: .skip 100
+data1: .skip 100
 @ Array 2
-.balign 4
-mdata2: .skip 100
+data2: .skip 100
 
 /* -- STRINGS */
-moutput_start_data1: .asciz "Data 1: "
-moutput_start_data2: .asciz "Data 2: "
-mformat_hex: .asciz "%x"
-.balign 4 @ Carat prompt
-mprompt_carat: .asciz "> "
-.balign 4 /* null prompt to fix seg fault */
-mprompt_endl: .asciz "\n"
-
-
+output_start_data1: .asciz "Data 1: "
+output_start_data2: .asciz "Data 2: "
+format_hex: .asciz "%x"
+prompt_carat: .asciz "> "
+prompt_endl: .asciz "\n"
 
 /* -- PROGRAM SECTION */
 .global main
+.func main
 .text
 
 @ Assumes data is in r0, value in r1
@@ -53,7 +51,7 @@ print_data_loop:
 
 	@ print the value
 	push	{r0, r1}
-	ldr 	r0, format_hex
+	ldr 	r0, =format_hex
 	mov 	r1, r3
 	pop	 	{r0, r1}
 
@@ -67,8 +65,8 @@ print_data_loop:
 /* -- PROGRAM MAIN */
 /* =============== */
 main:
-	ldr 	r0, =output_start_data1
-	bl 		printf
+	ldr		r0, =output_start_data1
+	bl		printf
 
 	@ Initialize the data sections. 
 	@ldr 	r0, data1
@@ -98,22 +96,6 @@ main:
 	@bl 		print_data
 
 	bx 		lr
-
-
-/* -- VARIABLE DEFINITIONS (addresses) */
-output_start_data1 : .word moutput_start_data1
-output_start_data2 : .word moutput_start_data2
-format_hex : .word mformat_hex
-prompt_carat : .word mprompt_carat
-prompt_endl : .word mprompt_endl
-
-data1 : .word mdata1
-data2 : .word mdata2
-
-/* -- EXTERNALS */
-.global printf
-.global scanf
-
 
 
 
