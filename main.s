@@ -74,10 +74,14 @@ main:
 	@ Initialize the data sections. 
 	ldr 	r0, data1
 	ldr 	r1, =0xAAAAAAAA
+	ldr 	r0, output_start_data1
+	bl 		printf
 	bl 		init_chunk
 
 	ldr 	r0, data2
 	ldr 	r1, =0xBBBBBBBB
+	ldr 	r0, output_start_data1
+	bl 		printf
 	bl 		init_chunk
 
 
