@@ -157,7 +157,7 @@ main:
 	ldr  	r1, =input_len
 	bl 		scanf
 
-	ldr 	r0, =format_dex
+	ldr 	r0, =format_dec
 	ldr 	r1, =inv_len
 	ldr 	r1, [r1]
 	bl 		printf
