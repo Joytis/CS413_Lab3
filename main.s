@@ -43,12 +43,12 @@ print_data_loop:
 	ldr		r3, [r0, r2]
 	add 	r2, r2, #4
 
-	@ @ print the value
-	@ push	{r0, r1}
-	@ ldr 	r0, =format_hex
-	@ mov 	r1, r3
-	@ bl 		printf
-	@ pop	 	{r0, r1}
+	@ print the value
+	push	{r0, r1}
+	ldr 	r0, =format_hex
+	mov 	r1, r3
+	bl 		printf
+	pop	 	{r0, r1}
 
 	cmp 	r2, #100
 	bne 	init_chunk_loop
@@ -77,13 +77,13 @@ main:
 	ldr		r0,	=sprompt
 	bl		printf 
 	ldr 	r0, =data1
-	@bl		print_data 
+	bl		print_data 
 
 	@ print intro
 	ldr		r0,	=sprompt2
 	bl		printf 
 	ldr 	r0, =data2
-	@bl		print_data 
+	bl		print_data 
 
 
 	@ get outta here. 
