@@ -29,6 +29,7 @@ inv_same: .asciz "Addresses are same. Invalid \n"
 inv_len: .asciz "Invalid Length\n"
 
 format_hex: .asciz "%x"
+format_dec: .asciz "%x"
 format_hex_n: .asciz "%x\n"
 format_str: .asciz "%"
 carat: .asciz "> "
@@ -152,7 +153,7 @@ main:
 
 	ldr 	r0, =pr_length
 	bl 		printf
-	ldr 	r0, =format_hex
+	ldr 	r0, =format_dec
 	ldr  	r1, =input_len
 	bl 		scanf
 
