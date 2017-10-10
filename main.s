@@ -171,34 +171,39 @@ main:
 	ldr 	r0, =input_src
 	ldr 	r0, [r0]
 	bl 		valid_addr
-	cmp 	r1, #1 
+	beq 	_x1
 	@ leave
-	ldrne 	r0, =inv_src
-	blne 	printf
-	bne 	_exit
+	ldr 	r0, =inv_src
+	bl 		printf
+	b 		_exit
+_x1:
 
 	@ Check for invalid data
 	ldr 	r0, =input_dst
 	ldr 	r0, [r0]
 	bl 		valid_addr
 	cmp 	r1, #1 
+	beq 	_x2
 	@ leave
-	ldrne 	r0, =inv_dst
-	blne 	printf
-	bne 	_exit
+	ldr 	r0, =inv_dst
+	bl 		printf
+	b 		_exit
+_x2:
 
 	@ Check for invalid length
 	ldr 	r0, =input_len
 	ldr 	r0, [r0]
 	bl 		valid_len
 	cmp 	r1, #1 
+	beq 	_x3
 	@ leave
-	ldrne 	r0, =inv_len
-	blne 	printf
-	bne 	_exit
+	ldr 	r0, =inv_len
+	bl 		printf
+	b 		_exit
+_x3:
 
 	@ ALL INPUT IS VALID! PROCEDE
-	
+
 
 
 _exit:
