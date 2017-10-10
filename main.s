@@ -5,65 +5,51 @@
 .data
 
 /* CONTROL VARIABLES */
-.balign 4 /* price of a soda */
-mprice: .word 		55
 .balign 4/*return variable*/
-mrval: .word	0
-.balign 4/*input variable*/
-minput: .word		0
-
-/* -- COIN VALUES */
-.balign 4 /* penny */
-mpenny: .word 		1
-.balign 4 /* nickel */
-mnickel: .word 		5
-.balign 4 /* dime */
-mdime: .word 		10
-.balign 4 /* quarter */
-mquarter: .word 		25
-.balign 4 /* 50c piece */
-mfcp: .word 			50
-.balign 4 /* dollar */
-mdollar: .word  		100
-.balign 4 /* slug(?) */
-mslug: .word 		0
+mrval: .word 0
 
 /* -- STRINGS */
-.balign  4 /* input format for scanf */
-minputformat: .asciz "%s"
-.balign  4 /* Prompt */
-mprompt: .asciz "Enter coin or select return.\n"
 .balign 4
 msprompt: .asciz "Data 1: \n"
 .balign 4
 msprompt2: .asciz "Data 2: \n"
-.balign 4 /* total  prompt */
-mtprompt: .asciz "Total is %d cents.\n\n"
-.balign 4 /* returning  prompt */
-mretprompt: .asciz "Returning all change!\n"
-.balign 4 /* returning  prompt */
-mpcarat: .asciz "> "
-.balign 4 /* coke  prompt */
-mscoke: .asciz "Selection is Coke\n"
-.balign 4 /* spr  prompt */
-mssprite: .asciz "Selection is Sprite\n"
-.balign 4 /* dp  prompt */
-msdp: .asciz "Selection is Dr. Pepper\n"
-.balign 4 /* dcoke  prompt */
-msdietcoke: .asciz "Selection is Diet Coke\n"
-.balign 4 /* my  prompt */
-msmy: .asciz "Selection is Mellow Yellow\n"
-.balign 4 /* change  prompt */
-mchange: .asciz "Returning %d cents as change!\n"
-.balign 4 /* change  prompt */
-moutchoice: .asciz "The machine is out of this selection!\n"
-
 .balign 4 /* null prompt to fix seg fault */
 mnullp: .asciz "\n"
 
 
 /* -- PROGRAM SECTION */
 .text
+
+@ Assumes data is in r0, value in r1
+init_chunk:
+    push    {r2, lr}
+    mov		r2, #0 @index
+init_chunk_loop:
+	str		r1, [r0, r2]
+	add 	r2, r2, #4
+	cmp 	r2, #100
+	bne 	init_chunk_loop
+    pop     {r2, pc}
+
+@ Data address in r0
+print_data:
+	push    {r2-r3, lr}
+    mov		r2, #0 @index
+print_data_loop:
+	ldr		r3, [r0, r2]
+	add 	r2, r2, #4
+
+	@ print the value
+	push	{r0, r1}
+	ldr 	r0, =format_hex
+	mov 	r1, r3
+	pop	 	{r0, r1}
+
+	cmp 	r2, #100
+	bne 	init_chunk_loop
+    pop     {r2-r3, pc}
+
+
 .global main
 
 /* =============== */
@@ -78,39 +64,17 @@ main:
 	ldr		r0,	sprompt
 	bl		printf 
 
+	@ get outta here. 
 	ldr 	lr, rval
 	ldr 	lr, [lr]
 	bx 		lr
 
 
 /* -- VARIABLE DEFINITIONS (addresses) */
-price		: .word mprice
-rval			: .word mrval
-input		: .word minput
-
-penny	 	: .word mpenny
-nickel	 	: .word mnickel
-dime 		: .word mdime 		
-quarter		: .word mquarter
-fcp	 		: .word mfcp 			
-dollar 		: .word mdollar 		
-slug 		: .word mslug
-
-inputformat 	: .word minputformat
 sprompt		: .word msprompt
-prompt 		: .word mprompt
-tprompt 		: .word mtprompt
-retprompt	: .word mretprompt
-pcarat 		: .word mpcarat
-pchange 	: .word mchange
-outchoice	: .word moutchoice
-nullp		: .word mnullp
+sprompt2	: .word msprompt2
 
-scoke		: .word mscoke
-ssprite		: .word mssprite
-sdp			: .word msdp
-sdietcoke	: .word msdietcoke
-smy		: .word msmy
+rval: .word mrval
 
 /* -- EXTERNALS */
 .global printf
