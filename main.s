@@ -13,11 +13,8 @@ mdata1: .skip 100
 mdata2: .skip 100
 
 /* -- STRINGS */
-.balign  4 /* input format for scanf */
 moutput_start_data1: .asciz "Data 1: "
-.balign  4 /* input format for scanf */
 moutput_start_data2: .asciz "Data 2: "
-.balign  4 /* input format for scanf */
 mformat_hex: .asciz "%x"
 .balign 4 @ Carat prompt
 mprompt_carat: .asciz "> "
@@ -35,7 +32,7 @@ init_chunk:
     push    {r2, lr}
     mov		r2, #0 @index
 
-    ldr 	r0, output_start_data1
+    ldr 	r0, =output_start_data1
 	bl 		printf
 init_chunk_loop:
 	str		r1, [r0, r2]
@@ -48,7 +45,7 @@ init_chunk_loop:
 print_data:
 	push    {r2-r3, lr}
     mov		r2, #0 @index
-    ldr 	r0, output_start_data1
+    ldr 	r0, =output_start_data1
 	bl 		printf
 print_data_loop:
 	ldr		r3, [r0, r2]
@@ -70,19 +67,19 @@ print_data_loop:
 /* -- PROGRAM MAIN */
 /* =============== */
 main:
-	@ ldr 	r0, output_start_data1
-	@ bl 		printf
+	ldr 	r0, =output_start_data1
+	bl 		printf
 
 	@ Initialize the data sections. 
 	@ldr 	r0, data1
 	@ldr 	r1, =0xAAAAAAAA
-	@ldr 	r0, output_start_data1
+	@ldr 	r0, =output_start_data1
 	@bl 		printf
 	@bl 		init_chunk
 @
 	@ldr 	r0, data2
 	@ldr 	r1, =0xBBBBBBBB
-	@ldr 	r0, output_start_data1
+	@ldr 	r0, =output_start_data1
 	@bl 		printf
 	@bl 		init_chunk
 @
